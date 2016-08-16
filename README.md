@@ -21,6 +21,45 @@
 - 테이블의 레코드들을 일괄 선택하여 작업하는 것이 가능하여야 한다.
 - 기본적으로 데스크탑에 최적화시키며, 컬럼의 수와 상관없이 전체 데이터를 볼 수 있도록 고려되어야한다.
 
+
 # 사용법
+여기저기에 쓸 예정이므로 특정 라이브러리(React,Vue 등)에 종속성을 가지지 않게 jQuery만 붙들고 늘어지도록 하였지만... 그럼에도 불구하고 아래의 라이브러리들이 필요하긴 한다. 어차피 어드민 페이지에만 출력할 것을 고려하고 있으니 성능 신경쓰지 말고 다 갖다 붙이자.
+```html
+<head>
+  <!-- Bootstrap CSS -->
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  
+  <!-- jQuery JS -->
+  <script src="//code.jquery.com/jquery-2.2.4.min.js"></script>
+  
+  <!-- Bootstrap JS -->
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  
+  <!-- jQuery UI JS -->
+  <script src="//code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 
+  <!-- AdminDataTable JS -->
+  <script src="./admin-data-table.js"></script>
+</head>
+```
 
+표시를 원하는 곳에 아래와 같은 마크업을 삽입한다.
+```html
+	<div
+		class="dataTable"
+		data-url="/admin/images/rows"
+		data-suggest-url="/admin/images/suggest"
+		data-columns="id,_id,user_id,status,used,name,created_at,updated_at,ext,resource,thumbnail,width,height,brightness,hue"
+		data-order-by="id desc"
+		data-init-skip="y"
+		data-batch-jobs="deleteAll:삭제"
+		data-record-jobs="viewRow:보기,updateRow:수정,deleteRow:삭제"
+	></div>
+```
+
+실행은 아래와 같이 해주면 된다.
+```javascript
+<script>
+  $('.dataTable').adminDataTable();
+</script>
+```
