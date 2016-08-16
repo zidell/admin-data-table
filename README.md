@@ -22,7 +22,7 @@
 - 기본적으로 데스크탑에 최적화시키며, 컬럼의 수와 상관없이 전체 데이터를 볼 수 있도록 고려되어야한다.
 
 
-# 사용법
+# 프론트엔드 사용법
 여기저기에 쓸 예정이므로 특정 라이브러리(React,Vue 등)에 종속성을 가지지 않게 jQuery만 붙들고 늘어지도록 하였지만... 그럼에도 불구하고 아래의 라이브러리들이 필요하긴 한다. 어차피 어드민 페이지에만 출력할 것을 고려하고 있으니 성능 신경쓰지 말고 다 갖다 붙이자.
 ```html
 <head>
@@ -48,7 +48,6 @@
 <div
 	class="dataTable"
 	data-url="/admin/images/rows"
-	data-suggest-url="/admin/images/suggest"
 	data-columns="id,_id,user_id,status,used,name,created_at,updated_at,ext,resource,thumbnail,width,height,brightness,hue"
 	data-order-by="id desc"
 	data-init-skip="y"
@@ -62,4 +61,24 @@
 <script>
   $('.dataTable').adminDataTable();
 </script>
+```
+
+# 백엔드 사용법
+표시할 데이터는 전적으로 서버에서 생성하여 반환을 하여야한다. 일단 `data-url`에 지정된 주소로 요청이 가능하도록 라우팅을 생성하고, 아래의 값들을 이용하여 조건식을 만들면 된다.
+```php
+// back-end php example source
+$clauses = json_decode($request->get('clause')); // 복합 조건이므로 json으로 들어온다. 파싱해서 써먹자.
+$orderBy = $requset->get('orderBy'); // 'id desc'와 같이 스페이스로 구분되어 있다.
+$skip = $request->get('skip'); // limit(20, $skip)과 같이 레코드를 몇개 스킵할 것인가 값이 들어있다.
+
+// 어쩌구 저쩌구 쿼리수행
+$total = query.getCount("....");
+$resultRows = query.getRows("....");
+
+$result = array( // status, total, rows(array) 들을 가지고 있는 배열을 만들고,
+	'status' => 'done',
+	'total' => $total,
+	'rows' => $resultRows
+);
+response($result, 'json'); // json 형태로 응답해준다.
 ```
