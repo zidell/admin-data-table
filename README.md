@@ -67,13 +67,13 @@
 표시할 데이터는 전적으로 서버에서 생성하여 반환을 하여야한다. 일단 `data-url`에 지정된 주소로 요청이 가능하도록 라우팅을 생성하고, 아래의 값들을 이용하여 조건식을 만들면 된다.
 ```php
 // back-end php example source
-$clauses = json_decode($request->get('clause')); // 복합 조건이므로 json으로 들어온다. 파싱해서 써먹자.
+$clauses = json_decode($request->get('clauses')); // 복합 조건이므로 json으로 들어온다. 파싱해서 써먹자.
 $orderBy = $requset->get('orderBy'); // 'id desc'와 같이 스페이스로 구분되어 있다.
 $skip = $request->get('skip'); // limit(20, $skip)과 같이 레코드를 몇개 스킵할 것인가 값이 들어있다.
 
 // 어쩌구 저쩌구 쿼리수행
-$total = query.getCount("....");
-$resultRows = query.getRows("....");
+$total = $query::getCount("....");
+$resultRows = $query::getRows("....");
 
 $result = array( // status, total, rows(array) 들을 가지고 있는 배열을 만들고,
 	'status' => 'done',
